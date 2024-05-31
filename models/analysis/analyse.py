@@ -49,6 +49,12 @@ results.fill(0)
 nsamples = params['frzout']['maxsamples']
 results['nsamples'] = nsamples
 
+id_y_cuts  = [float(y)  for  y in params['analysis']['id_cuts'][0]]
+id_pT_cuts = [float(pT) for pT in params['analysis']['id_cuts'][1]]
+
+vn_eta_cuts = [float(eta) for eta in params['analysis']['vn_cuts'][0]]
+vn_pT_cuts  = [float(pT)  for  pT in params['analysis']['vn_cuts'][1]]
+
 # read final particle data
 with open('particles_out.dat', 'rb') as f:
 
@@ -73,14 +79,15 @@ with open('particles_out.dat', 'rb') as f:
     ET_eta = .6
     results['dET_deta'] = parts['ET'][abs_eta < ET_eta].sum() / (2*ET_eta) / nsamples
 
-    abs_ID = np.abs(parts['ID'])
-    midrapidity = (np.fabs(parts['y']) < .5)
-
     pT = parts['pT']
     phi = parts['phi']
 
+    abs_ID = np.abs(parts['ID'])
+    midrapidity = (parts['y'] > id_y_cuts[0]) & (parts['y'] < id_y_cuts[1])
+    pTcut = (pT > id_pT_cuts[0]) & (pT < id_pT_cuts[1])
+
     for name, i in species:
-        cut = (abs_ID == i) & midrapidity
+        cut = (abs_ID == i) & midrapidity & pTcut
         N = np.count_nonzero(cut)
         results['dN_dy'][name] = N / nsamples
         results['mean_pT'][name] = (0. if N == 0 else pT[cut].mean())
@@ -98,7 +105,10 @@ with open('particles_out.dat', 'rb') as f:
 
     np.savetxt("dndpt.dat", results['dN_dpT'], header=str(results['dNch_deta']))
 
-    phi_alice = phi[charged & (abs_eta < .8) & (.2 < pT) & (pT < 5.)]
+    midrapidity = (abs_eta > vn_eta_cuts[0]) & (abs_eta < vn_eta_cuts[1])
+    pTcut = (pT > vn_pT_cuts[0]) & (pT < vn_pT_cuts[1])
+
+    phi_alice = phi[charged & midrapidity & pTcut]
     results['flow']['N'] = phi_alice.size
     results['flow']['Qn'] = [
         np.exp(1j*n*phi_alice).sum()
