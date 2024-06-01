@@ -12,7 +12,7 @@ class optEventSort:
 		for i in range(0, len(q), n):
 			yield q[i:i+n]
 
-	def shuffle(self, q, n):
+	def __shuffle(self, q, n):
 		q = list(q)
 		m = len(q)//2
 		left =  list(self.__chunks(q[:m],n))
