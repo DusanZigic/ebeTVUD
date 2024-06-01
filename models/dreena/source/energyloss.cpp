@@ -534,7 +534,7 @@ int energyLoss::generateInitPosPoints(size_t event_id, std::vector<double> &xPoi
 
 int energyLoss::loadTProfile(size_t event_id, interpolationF<double> &tempProfile)
 {
-	const std::string path_in = "./evols/evols_cent=" + m_centrality + "/tempevol" + std::to_string(event_id) + ".dat";
+	const std::string path_in = m_workDir + "Temp_evo/Temp_evo" + std::to_string(event_id) + ".dat";
 
 	std::ifstream file_in(path_in, std::ios_base::in | std::ios_base::binary);
 	if (!file_in.is_open()) {
