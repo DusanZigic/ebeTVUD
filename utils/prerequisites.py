@@ -70,7 +70,7 @@ class prerequisites:
 
 		# checking for g++ compiler and its version:
 		if not self.__check_install("g++"):
-			print("Error: g++ not insatlled. Aborting...")
+			print("Error: g++ not installed. Aborting...")
 			exit()
 		if self.__check_version("g++") < 5.0:
 			print("Error: g++ version 5.0+ needed. Aborting...")
