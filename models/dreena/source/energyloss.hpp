@@ -23,10 +23,10 @@ private:
     std::string m_collsys;	    //collision system
     std::string m_sNN; 		    //collision energy
     std::string m_pName; 	    //particle name
-    std::string m_centrality;   //centrality class
     double m_xB;			    //xB value
     double m_BCPP;			    //binary collision points percentage
-    size_t m_eventN;		    //number of events 
+    size_t m_eventIDlow;        //lower eventID
+    size_t m_eventIDhigh;       //higher eventID
     size_t m_phiGridN;		    //phi points number
     double m_TIMESTEP, m_TCRIT;	//time step and critical temperature
     int m_BCPSEED;			    //seed for generating initial position points
