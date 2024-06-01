@@ -11,7 +11,7 @@ def update_params():
 	parser = argparse.ArgumentParser()
 
 	#############################################################################################################
-	#simulation parameters:
+	# simulation parameters:
 	parser.add_argument('--simulation',     type=str)
 
 	parser.add_argument('--centrality',     type=str)
@@ -23,7 +23,7 @@ def update_params():
 	parser.add_argument('--recompile', 	    type=int)
 
 	#############################################################################################################
-	#TRENTO parameters:
+	# TRENTO parameters:
 	parser.add_argument('--mb_event_n',  type=int)
 
 	parser.add_argument('--projectile',	 type=str)
@@ -42,12 +42,12 @@ def update_params():
 	parser.add_argument('--trento_seed', type=int)
 
 	#############################################################################################################
-	#freestream parameters:
+	# freestream parameters:
 	parser.add_argument('--freestream_on', 	type=int)
 	parser.add_argument('--tau_freestream', type=float)
 	
 	#############################################################################################################
-	#osu-hydro parameters:
+	# osu-hydro parameters:
 	parser.add_argument('--T0', 			 type=float)
 	parser.add_argument('--IEin',            type=int)
 	parser.add_argument('--InitialURead',    type=int)
@@ -77,7 +77,15 @@ def update_params():
 	parser.add_argument('--BulkTau',         type=float)
 
 	#############################################################################################################
-	#ebeDREENA parameters:
+	# analysis parameters:
+	parser.add_argument('--id_pT_cuts',  type=str)
+	parser.add_argument('--id_y_cuts',   type=str)
+	parser.add_argument('--vn_pT_cuts',  type=str)
+	parser.add_argument('--vn_eta_cuts', type=str)
+
+
+	#############################################################################################################
+	# ebeDREENA parameters:
 	parser.add_argument('--xB', 	    type=float)
 	
 	parser.add_argument('--BCPP',       type=str)
@@ -95,7 +103,7 @@ def update_params():
 	args = parser.parse_args()
 
 	#############################################################################################################
-	#main parameters:
+	# main parameters:
 	if args.simulation     is not None: params['main']['simulation']     = args.simulation
 
 	if args.centrality     is not None: params['main']['centrality']     = args.centrality.split(',')
@@ -107,7 +115,7 @@ def update_params():
 	if args.recompile      is not None: params['main']['recompile']      = args.recompile
 
 	#############################################################################################################
-	#TRENTO parameters:
+	# TRENTO parameters:
 	if args.mb_event_n  is not None: params['trento']['mb_event_n']  = args.mb_event_n
 
 	if args.projectile  is not None: params['trento']['projectile']  = args.projectile
@@ -126,12 +134,12 @@ def update_params():
 	if args.trento_seed is not None: params['trento']['trento_seed'] = args.trento_seed
 
 	#############################################################################################################
-	#freestream parameters:
+	# freestream parameters:
 	if args.freestream_on  is not None: params['freestream']['turn_on']        = args.freestream_on
 	if args.tau_freestream is not None: params['freestream']['tau_freestream'] = args.tau_freestream
 	
 	#############################################################################################################
-	#osu-hydro parameters:
+	# osu-hydro parameters:
 	if args.T0              is not None: params['hydro']['T0']              = args.T0
 	if args.IEin            is not None: params['hydro']['IEin']            = args.IEin
 	if args.InitialURead    is not None: params['hydro']['InitialURead']    = args.InitialURead
@@ -161,7 +169,15 @@ def update_params():
 	if args.BulkTau         is not None: params['hydro']['BulkTau']         = args.BulkTau
 
 	#############################################################################################################
-	#dreena parameters:
+	# analysis parameters:
+	if args.id_y_cuts   is not None: params['analysis']['id_cuts'][0] = [float(x) for x in args.id_y_cuts.split(',')]
+	if args.id_pT_cuts  is not None: params['analysis']['id_cuts'][1] = [float(x) for x in args.id_pT_cuts.split(',')]
+	if args.vn_eta_cuts is not None: params['analysis']['vn_cuts'][0] = [float(x) for x in args.vn_eta_cuts.split(',')]
+	if args.vn_pT_cuts  is not None: params['analysis']['vn_cuts'][1] = [float(x) for x in args.vn_pT_cuts.split(',')]
+
+
+	#############################################################################################################
+	# dreena parameters:
 	if args.xB 		   is not None: params['dreena']['xB'] 		   = args.xB
 	if args.BCPP       is not None: params['dreena']['BCPP']       = args.BCPP
 	if args.BCPSEED    is not None: params['dreena']['BCPSEED']    = args.BCPSEED
@@ -175,17 +191,22 @@ def update_params():
 	if args.TCRIT      is not None: params['dreena']['TCRIT']      = args.TCRIT
 
 	#############################################################################################################
+	# checking batch system:
+	if params['main']['batch_system'] not in ['slurm', 'local']:
+		print("Error: batch_system parameter must be one of: local, slurm. Aborting...")
+		return False
+
+	#############################################################################################################
 	#setting parameters that depend on other dictionary values:
 
-	######################################################################################
-	#trento
+	# trento
 	if params['trento']['trento_seed'] > 0:
 		params['trento']['num_of_jobs'] = 1                             #setting number of trento jobs to 1
 	else:
 		params['trento']['num_of_jobs'] = params['main']['num_of_jobs'] #setting number of trento jobs to num_of_jobs
 
 	######################################################################################
-	#freestreaming
+	# freestreaming
 	if params['freestream']['turn_on'] == 1:
 		params['hydro']['T0'] =  params['freestream']['tau_freestream']   #setting hydro termalization time to freestream time
 		params['hydro']['IEin'] = 0										  #setting read initial condition parameter as energy						
@@ -207,53 +228,53 @@ def update_params():
 	##########################################################################################################
 	#checking if provided save files parameters are valid:
 
-	#trento files:
+	# trento files:
 	trento_save_files = ['sd.dat', 'bcp.dat']
 	for fs in params['trento']['save_files']:
 		if fs not in trento_save_files:
-			print('Error: provided trento file to save, {0:s}, not valid. Aborting...'.format(fs))
+			print(f"Error: provided trento file to save, {fs}, not valid. Aborting...")
 			return False
 
-	#freestream files:
+	# freestream files:
 	freestream_save_files = ['ed.dat', 'u1.dat', 'u2.dat', 'pi11.dat', 'pi12.dat', 'pi22.dat']
 	for fs in params['freestream']['save_files']:
 		if fs not in freestream_save_files:
-			print('Error: provided freestream file to save, {0:s}, not valid. Aborting...'.format(fs))
+			print(f"Error: provided freestream file to save, {fs}, not valid. Aborting...")
 			return False
 
-	#osu-hydro files:
+	# osu-hydro files:
 	osuhydro_save_files = ['Temp_evo.dat', 'surface.dat']
 	for fs in params['hydro']['save_files']:
 		if fs not in osuhydro_save_files:
-			print('Error: provided hydro file to save, {0:s}, not valid. Aborting...'.format(fs))
+			print(f"Error: provided hydro file to save, {fs}, not valid. Aborting...")
 			return False
 
-	#frzout files:
+	# frzout files:
 	frzout_save_files = ['particles_in.dat']
 	for fs in params['frzout']['save_files']:
 		if fs not in frzout_save_files:
-			print('Error: provided freezout file to save, {0:s}, not valid. Aborting...'.format(fs))
+			print(f"Error: provided freezout file to save, {fs}, not valid. Aborting...")
 			return False
 
-	#urqmd files:
+	# urqmd files:
 	urqmd_save_files = ['particles_out.dat']
 	for fs in params['urqmd']['save_files']:
 		if fs not in urqmd_save_files:
-			print('Error: provided urqmd file to save, {0:s}, not valid. Aborting...'.format(fs))
+			print(f"Error: provided urqmd file to save, {fs}, not valid. Aborting...")
 			return False
 
-	#analysis files:
+	# analysis files:
 	analysis_save_files = ['dndpt.dat', 'identified.dat', 'qn.dat', 'intflows.dat', 'Qn.dat']
 	for fs in params['analysis']['save_files']:
 		if fs not in analysis_save_files:
-			print('Error: provided analysis file to save, {0:s}, not valid. Aborting...'.format(fs))
+			print(f"Error: provided analysis file to save, {fs}, not valid. Aborting...")
 			return False
 
-	#eloss files:
+	# eloss files:
 	eloss_save_files = ['avg', 'dists']
 	for fs in params['dreena']['save_files']:
 		if fs not in eloss_save_files:
-			print('Error: provided dreena file to save, {0:s}, not valid. Aborting...'.format(fs))
+			print(f"Error: provided dreena file to save, {fs}, not valid. Aborting...")
 			return False	
 
 	##########################################################################################################
