@@ -115,11 +115,19 @@ params = {
 	#analysis parameters:
 	'analysis': {
 
-			'save_files': ['qn.dat'], # chose which files to save;
-							  		  # options:      dndpt.dat - pT spectrum of charged hadrons at mid(pseudo)rapidity |eta|<0.5
-							  		  #          identified.dat - multiplicities and mean transverse momenta of pions, kaons and protons at midrapidity |y| < 0.5
-							  		  #	  	             qn.dat - flow vectors of charged particles at midrapidity |eta|<0.8 and 0.2 < pT < 5.0 GeV for harmonics n=1 to 8
-							  		  #            intflows.dat - integrated flows calculated from qn
+			'save_files': ['qn.dat'], 				# chose which files to save;
+							  		  				# options:      dndpt.dat - pT spectrum of charged hadrons at mid(pseudo)rapidity |eta|<0.5
+							  		  				#          identified.dat - multiplicities and mean transverse momenta of pions, kaons and
+                                                    #							protons at 'id_cuts' (see bellow)
+							  		  				#	  	           qn.dat - flow vectors of charged particles at 'vn_cuts' (see bellow) for
+                                                    #							harmonics n=1 to 8
+							  		  				#            intflows.dat - integrated flows calculated from qn
+			'id_cuts': [[-0.5, 0.5], [0.0, 'inf']], # y and pT cuts for identified multiplicities and mean pT
+												    # standard values:  ALICE: |y|<0.5, 0.0<pT<inf, 1910.07678
+												   	#				   PHENIX: |y|<0.5, 0.0<pT<inf, nucl-ex/0307022
+			'vn_cuts': [[-0.8, 0.8], [0.2, 5.0]],   # eta and pT cuts for integrated v_n
+													# standard values: ALICE: |eta|<0.8, 0.20<pT<5.0, 1602.01119
+													#				    STAR: |eta|<1.3, 0.15<pT<2.0, nucl-ex/0409033
 	},
 
 	#############################################################################################################
