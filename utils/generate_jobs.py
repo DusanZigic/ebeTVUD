@@ -69,7 +69,7 @@ class generateJobs():
 			f.write("#SBATCH --cpus-per-task=1\n")
 			f.write(f"#SBATCH --time={eventTiming:d}:00:00\n\n")
 			f.write(f"(cd {trento_src_dir}\n")
-			f.write(f"	./trento -c {path.join(src_dir, "trento.conf")} > {path.join(src_dir, "trento_events.dat")}\n")
+			f.write(f"	./trento -c {path.join(src_dir, 'trento.conf')} > {path.join(src_dir, 'trento_events.dat')}\n")
 			f.write(")\n\n")
 			f.write("python3 gen_bcp.py\n\n")
 			f.write("echo 'job done' > jobdone.info")
