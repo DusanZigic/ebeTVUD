@@ -11,9 +11,9 @@ class prerequisites:
 	
 	def __check_install(self, comp):
 		temp_file = open("response.info", 'w')
-		call(comp, shell=True, stdout=temp_file, stderr=temp_file)
+		call(f"{comp} --version", shell=True, stdout=temp_file, stderr=temp_file)
 		temp_file.close()
-		installFlag = "not found" in open("response.info", 'r').readline()
+		installFlag = not "not found" in open("response.info", 'r').readline()
 		remove("response.info")
 		return installFlag
 
