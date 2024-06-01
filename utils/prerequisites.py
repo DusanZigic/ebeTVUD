@@ -4,7 +4,6 @@ from sys import version_info, exit
 from os import path, walk, mkdir, remove
 from shutil import rmtree
 from subprocess import call
-from params import params
 
 class prerequisites:
 	def __init__(self, params):
@@ -231,7 +230,7 @@ class prerequisites:
 		remove(path.join(model_dir, "compile.info"))
 	
 	def recompile(self):
-		if params['main']['recompile'] == 1:
+		if self.params['main']['recompile'] == 1:
 			models_dir = path.abspath("models")
 			rmtree(path.join(models_dir, "trento",                   "build"))      #trento
 			rmtree(path.join(models_dir, "osu-hydro",                "build"))      #hydro
