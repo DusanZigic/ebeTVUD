@@ -160,7 +160,7 @@ class generateJobs():
 		evid_high     = int(max(cent_highs)/100.0*trento_events.shape[0])
 		trento_events = trento_events[evid_low:evid_high, :]
 
-		from opt_sort_events import optEventSort
+		from utils.opt_sort_events import optEventSort
 		osevents = optEventSort(self.params['main']['num_of_jobs'], trento_events.shape[0])
 		opt_sorted_events = osevents.sort_events_opt()
 
