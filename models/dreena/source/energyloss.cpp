@@ -22,7 +22,7 @@ energyLoss::energyLoss(int argc, const char *argv[])
 	std::vector<std::string> inputs; for (int i=2; i<argc; i++) inputs.push_back(argv[i]);
 
 	if ((inputs.size() == 1) && (inputs[0] == "-h")) {
-		std::cout << "default values: --collsys=PbPb --sNN=5020GeV --pName=Charm --centrality=30-40% --xB=0.6 --eventN=1000 --BCPP=20% --phiGridN=25 --TIMESTEP=0.1 --TCRIT=0.155 --BCPSEED=0" << std::endl;
+		std::cout << "default values: --workDir --collsys=PbPb --sNN=5020GeV --pName=Charm --centrality=30-40% --xB=0.6 --eventN=1000 --BCPP=20% --phiGridN=25 --TIMESTEP=0.1 --TCRIT=0.155 --BCPSEED=0" << std::endl;
 		m_error = true;
 	}
 
@@ -34,15 +34,24 @@ energyLoss::energyLoss(int argc, const char *argv[])
 		std::string val = in.substr(in.find("=")+1, in.length());
 		inputParams[key] = val;
 	}
-	std::vector<std::string> arguments = {"collsys", "sNN", "pName", "centrality", "xB", "eventN", "BCPP", "phiGridN", "TIMESTEP", "TCRIT", "BCPSEED", "config", "h"};
+	std::vector<std::string> arguments = {"workDir", "collsys", "sNN", "pName", "centrality", "xB", "eventN", "BCPP", "phiGridN", "TIMESTEP", "TCRIT", "BCPSEED", "config", "h"};
 	for (const auto &inputParam : inputParams) {
 		if(std::find(arguments.begin(), arguments.end(), inputParam.first) == arguments.end()) {
 			std::cerr << "Error: provided argument flag: '" << inputParam.first << "' is not an option." << std::endl;
 			std::cerr << "Valid parameters and default values are: ";
-			std::cerr << "--collsys=PbPb --sNN=5020GeV --pName=Charm --centrality=30-40% --xB=0.6 --eventN=1000 --BCPP=20% --phiGridN=25 --TIMESTEP=0.1 --TCRIT=0.155 --BCPSEED=0" << std::endl;
+			std::cerr << "--workDir --collsys=PbPb --sNN=5020GeV --pName=Charm --centrality=30-40% --xB=0.6 --eventN=1000 --BCPP=20% --phiGridN=25 --TIMESTEP=0.1 --TCRIT=0.155 --BCPSEED=0" << std::endl;
 			std::cerr << "For congiguration file use: --config=[pathToConfFile]" << std::endl;
 			m_error = true;
 		}
+	}
+
+	if (inputParams.count("workDir") == 0) {
+		std::cerr << "Error: work directory path parameter must be provided. Aborting..." << std::endl;
+		m_error = true;
+	}
+	else {
+		m_workDir = inputParams.at("workDir");
+		if (m_workDir.back() != '/') m_workDir += "/";
 	}
 
 	//checking if configuration file is provided:
@@ -117,7 +126,13 @@ energyLoss::energyLoss(int argc, const char *argv[])
 
 int energyLoss::loadInputsFromFile(const std::string &filePath, std::map<std::string, std::string> &inputParamsFile)
 {
-	std::ifstream file_in(filePath);
+	if (m_workDir.length() == 0) {
+		return -1;
+	}
+
+	std::string configFilePath = m_workDir + "elossjob/" + filePath;
+
+	std::ifstream file_in(configFilePath);
 	if (!file_in.is_open()) {
 		std::cerr << "Error: unable to open configuration file. Aborting..." << std::endl;
 		return -1;
@@ -372,7 +387,7 @@ int energyLoss::loadLColl()
 
 int energyLoss::generateTempGrid()
 {
-	const std::string path_in = "./evols/evols_cent=" + m_centrality + "/evolgridparams.dat";
+	const std::string path_in = m_workDir + "Temp_evo/temp_grids.dat";
 
 	std::ifstream file_in(path_in);
 	if (!file_in.is_open()) {
@@ -454,7 +469,7 @@ int energyLoss::loadPhiPoints()
 
 int energyLoss::loadBinCollPoints(size_t event_id, std::vector<std::vector<double>> &bcpoints)
 {
-	const std::string path_in = "./binarycollpts/binarycollpts_cent=" + m_centrality + "/binarycollpts" + std::to_string(event_id) + ".dat";
+	const std::string path_in = m_workDir + "bcp/bcp" + std::to_string(event_id) + ".dat";
 
 	std::ifstream file_in(path_in, std::ios_base::in);
 	if (!file_in.is_open()) {
