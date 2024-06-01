@@ -188,7 +188,7 @@ class generateJobs():
 				copy(path.join(mdl_dir, "osu-hydro", "eos", "eos.dat"), event_dir)
 				self.__gen_hydro_conf(event_dir)
 
-				copy(path.join(mdl_dir, "frzout", "sample_surface.py"), event_dir)
+				copy(path.join(mdl_dir, "frzout", "sampleSurface.py"), event_dir)
 
 				copy(path.join(mdl_dir, "urqmd-afterburner", "build", "hadrontransport", "bin", "afterburner"), event_dir)
 				copy(path.join(mdl_dir, "urqmd-afterburner", "build", "hadrontransport", "bin", "osc2u"),       event_dir)
