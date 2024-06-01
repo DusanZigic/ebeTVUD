@@ -45,7 +45,7 @@ class prerequisites:
 		else :
 			print("Error: python version 3.5+ needed. Aborting...")
 			exit()
-		for mdl in ["numpy", "scipy", "cython", "h5py", "argparse", "re", "itertools", "struct"]:
+		for mdl in ["numpy", "scipy", "cython", "h5py", "argparse", "re", "itertools", "struct", "json"]:
 			try:
 				__import__(mdl)
 			except ImportError:
