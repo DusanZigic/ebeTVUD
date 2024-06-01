@@ -2,36 +2,41 @@
 
 from itertools import cycle, chain
 
-def chunks(q, n):
-    q = list(q)
-    for i in range(0, len(q), n):
-       yield q[i:i+n]
+class optEventSort:
+	def __init__(self, jobN, eventN):
+		self.jobN = jobN
+		self.eventN = eventN
 
-def shuffle(q, n):
-    q = list(q)
-    m = len(q)//2
-    left =  list(chunks(q[:m],n))
-    right = list(chunks(reversed(q[m:]),n)) + [[]]
-    return chain(*(a+b for a,b in zip(left, right)))
+	def __chunks(self, q, n):
+		q = list(q)
+		for i in range(0, len(q), n):
+			yield q[i:i+n]
 
-def listarray(n):
-    return [list() for _ in range(n)]
+	def shuffle(self, q, n):
+		q = list(q)
+		m = len(q)//2
+		left =  list(self.__chunks(q[:m],n))
+		right = list(self.__chunks(reversed(q[m:]),n)) + [[]]
+		return chain(*(a+b for a,b in zip(left, right)))
 
-def mean(q):
-    return sum(q)/len(q)
+	def __listarray(self, n):
+		return [list() for _ in range(n)]
+
+	def __mean(self, q):
+		return sum(q)/len(q)
     
-def sort_events_opt(jobN, eventN):
-	NBUCKETS = jobN
-	COUNT    = eventN
-	data 	 = range(eventN)
+	def sort_events_opt(self):
+		NBUCKETS = self.jobN
+		COUNT    = self.eventN
+		data 	 = range(self.eventN)
 
-	order = shuffle(range(COUNT), NBUCKETS)
-	posts = cycle(range(NBUCKETS))
-	buckets = listarray(NBUCKETS)
-	for o in order:
-		i = next(posts)
-		buckets[i].append(data[o])
+		order = self.__shuffle(range(COUNT), NBUCKETS)
+		posts = cycle(range(NBUCKETS))
+		buckets = self.__listarray(NBUCKETS)
+		for o in order:
+			i = next(posts)
+			buckets[i].append(data[o])
 
-	eventids = [sorted(x) for x in buckets]
+		eventids = [sorted(x) for x in buckets]
 
-	return eventids
+		return eventids
