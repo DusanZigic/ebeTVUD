@@ -248,12 +248,17 @@ class generateJobs():
 
 	def __gen_eloss_conf(self, srcdir):
 		with open(path.join(srcdir, "dreena.conf"), 'w') as f:
-			f.write(f"sNN = {self.params['trento']['ecm']:d}GeV\n".format())
-			f.write(f"xB = {self.params['dreena']['xB']:.6f}\n".format())
-			f.write(f"BCPSEED = {self.params['dreena']['BCPSEED']:d}\n".format())
-			f.write(f"phiGridN = {self.params['dreena']['phiGridN']:d}\n".format())
-			f.write(f"TIMESTEP = {self.params['dreena']['TIMESTEP']:.6f}\n".format())
-			f.write(f"TCRIT = {self.params['dreena']['TCRIT']:.6f}\n".format())
+			f.write(f"sNN = {self.params['trento']['ecm']:d}GeV\n")
+			f.write(f"xB = {self.params['dreena']['xB']:.6f}\n")
+			f.write(f"BCPSEED = {self.params['dreena']['BCPSEED']:d}\n")
+			f.write(f"phiGridN = {self.params['dreena']['phiGridN']:d}\n")
+			f.write(f"TIMESTEP = {self.params['dreena']['TIMESTEP']:.6f}\n")
+			f.write(f"TCRIT = {self.params['dreena']['TCRIT']:.6f}\n")
+		with open(path.join(srcdir, "dsssffs.conf"), 'w') as f:
+			f.write(f"sNN = {self.params['trento']['ecm']:d}GeV\n")
+		with open(path.join(srcdir, "vn.conf"), 'w') as f:
+			f.write(f"sNN = {self.params['trento']['ecm']:d}GeV\n")
+			f.write(f"eventN = {self.params['trento']['mb_event_n']:d}\n")
 
 	def __gen_eloss_job_script(self, srcdir):
 		dreenadir = path.abspath("models/dreena")
