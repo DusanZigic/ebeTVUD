@@ -224,7 +224,23 @@ class prerequisites:
 			if not dreenaFlag:
 				print("Error: could not compile ebeDREENA source code. Aborting...")
 				compile_file.close()
-				return False
+				exit()
+		
+		# checking for DSSFFs executable:
+		src_dir = path.join(model_dir, "DSSFFs")
+		if path.exists(src_dir):
+			dssffsFlag = False
+			for root, dirs, files in walk(src_dir):
+				if "DSSFFs" in files: dssffsFlag = True
+			if not dssffsFlag:
+				call("g++ source/*.cpp -fopenmp -O3 -o DSSFFs", shell=True, cwd=src_dir, stdout=compile_file, stderr=compile_file)
+				dssffsFlag = False
+				for root, dirs, files in walk(src_dir):
+					if "DSSFFs" in files: dssffsFlag = True
+				if not dssffsFlag:
+					print("Error: could not compile DSSFFs source code. Aborting...")
+					compile_file.close()
+					exit()
 		
 		compile_file.close()
 		remove(path.join(model_dir, "compile.info"))
@@ -240,4 +256,6 @@ class prerequisites:
 				rmtree(path.join(models_dir, "urqmd-afterburner", "build"))
 			if path.exists(path.join(models_dir, "ebetvuddreena", "ebeDREENA")):
 				remove(path.join(models_dir, "ebetvuddreena", "ebeDREENA"))
+			if path.exists(path.join(models_dir, "DSSFFs", "DSSFFs")):
+				remove(path.join(models_dir, "DSSFFs", "DSSFFs"))
 			self.check_execs()
