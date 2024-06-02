@@ -232,8 +232,12 @@ class prerequisites:
 	def recompile(self):
 		if self.params['main']['recompile'] == 1:
 			models_dir = path.abspath("models")
-			rmtree(path.join(models_dir, "trento",                   "build"))      # trento
-			rmtree(path.join(models_dir, "osu-hydro",                "build"))      # hydro
-			rmtree(path.join(models_dir, "urqmd-afterburner",        "build"))      # urqmd
-			remove(path.join(models_dir, "dreena",                   "ebeDREENAA")) # ebeDREENAA
+			if path.exists(path.join(models_dir, "trento", "build")):
+				rmtree(path.join(models_dir, "trento", "build"))
+			if path.exists(path.join(models_dir, "osu-hydro", "build")):
+				rmtree(path.join(models_dir, "osu-hydro", "build"))
+			if path.exists(path.join(models_dir, "urqmd-afterburner", "build")):
+				rmtree(path.join(models_dir, "urqmd-afterburner", "build"))
+			if path.exists(path.join(models_dir, "dreena", "ebeDREENAA")):
+				remove(path.join(models_dir, "dreena", "ebeDREENAA"))
 			self.check_execs()
