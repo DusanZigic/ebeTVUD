@@ -266,8 +266,6 @@ class generateJobs():
 				f.write(f"eventN = {self.params['trento']['mb_event_n']:d}\n")
 
 	def __gen_eloss_job_script(self, srcdir):
-		dreenadir = path.abspath("models/ebetvuddreena")
-		workdir   = path.abspath("work")
 		dreenaTiming = int(200/self.params['dreena']['THREAD_NUM']*self.params['trento']['mb_event_n']/1000)
 		with open(path.join(srcdir, "jobscript.slurm"), 'w') as f:
 			f.write("#!/bin/bash\n")
@@ -278,7 +276,7 @@ class generateJobs():
 			f.write("#SBATCH --ntasks=1\n")
 			f.write(f"#SBATCH --cpus-per-task={self.params['dreena']['THREAD_NUM']:d}\n")
 			f.write(f"#SBATCH --time={dreenaTiming:d}:00:00\n\n")
-			f.write(f"python3 run_eloss.py {dreenadir} {workdir}\n")
+			f.write(f"python3 run_eloss.py\n")
 			f.write("echo 'job done' > jobdone.info")
 
 	def gen_eloss_jobs(self):
