@@ -1,10 +1,5 @@
-models/dreena/DSSFFsEbEv6.0m
-models/dreena/ptDists
-models/dreena/Vnv4.0m
-models/dreena/testbcpp
+models/DSSFFs
 .vscode
 __pycache__
-models/dreena/ebeDREENAA
 work
-work0
 jobscript.slurm
