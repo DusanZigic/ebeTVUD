@@ -215,14 +215,14 @@ class prerequisites:
 		src_dir = path.join(model_dir, "dreena")
 		dreenaFlag = False
 		for root, dirs, files in walk(src_dir):
-			if "ebeDREENAA" in files: dreenaFlag = True
+			if "ebeDREENA" in files: dreenaFlag = True
 		if not dreenaFlag:
-			call("g++ source/*.cpp -fopenmp -O3 -o ebeDREENAA", shell=True, cwd=src_dir, stdout=compile_file, stderr=compile_file)
+			call("g++ source/*.cpp -fopenmp -O3 -o ebeDREENA", shell=True, cwd=src_dir, stdout=compile_file, stderr=compile_file)
 			dreenaFlag = False
 			for root, dirs, files in walk(src_dir):
-				if "ebeDREENAA" in files: dreenaFlag = True
+				if "ebeDREENA" in files: dreenaFlag = True
 			if not dreenaFlag:
-				print("Error: could not ebeDREENAA source code. Aborting...")
+				print("Error: could not ebeDREENA source code. Aborting...")
 				compile_file.close()
 				return False
 		
@@ -238,6 +238,6 @@ class prerequisites:
 				rmtree(path.join(models_dir, "osu-hydro", "build"))
 			if path.exists(path.join(models_dir, "urqmd-afterburner", "build")):
 				rmtree(path.join(models_dir, "urqmd-afterburner", "build"))
-			if path.exists(path.join(models_dir, "dreena", "ebeDREENAA")):
-				remove(path.join(models_dir, "dreena", "ebeDREENAA"))
+			if path.exists(path.join(models_dir, "dreena", "ebeDREENA")):
+				remove(path.join(models_dir, "dreena", "ebeDREENA"))
 			self.check_execs()
