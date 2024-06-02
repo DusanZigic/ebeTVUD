@@ -73,7 +73,7 @@ class collectData:
 			rmtree(job_dir)
 
 		#averaging multiplicities and flows:
-		from lowpt_avg import lowpTAvg
+		from utils.lowpt_avg import lowpTAvg
 		
 		mult_dir = path.join(work_dir, "multiplicities")
 		if not path.exists(mult_dir): mkdir(mult_dir)
