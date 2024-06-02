@@ -194,8 +194,8 @@ class generateJobs():
 				copy(path.join(mdl_dir, "urqmd-afterburner", "build", "hadrontransport", "bin", "osc2u"),       event_dir)
 				copy(path.join(mdl_dir, "urqmd-afterburner", "build", "hadrontransport", "bin", "urqmd"),       event_dir)
 
-				copy(path.join(mdl_dir, "analysis", "analyse.py"),        event_dir)
-				copy(path.join(mdl_dir, "analysis", "reference_flow.py"), event_dir)
+				copy(path.join(utils_dir, "analyse.py"),        event_dir)
+				copy(path.join(utils_dir, "reference_flow.py"), event_dir)
 
 				copy(path.join(utils_dir, "run_event.py"), event_dir)
 
