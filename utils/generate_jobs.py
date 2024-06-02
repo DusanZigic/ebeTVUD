@@ -248,20 +248,25 @@ class generateJobs():
 
 	def __gen_eloss_conf(self, srcdir):
 		with open(path.join(srcdir, "dreena.conf"), 'w') as f:
+			f.write(f"modelDir = {path.abspath('models/ebetvuddreena')}\n")
 			f.write(f"sNN = {self.params['trento']['ecm']:d}GeV\n")
 			f.write(f"xB = {self.params['dreena']['xB']:.6f}\n")
 			f.write(f"BCPSEED = {self.params['dreena']['BCPSEED']:d}\n")
 			f.write(f"phiGridN = {self.params['dreena']['phiGridN']:d}\n")
 			f.write(f"TIMESTEP = {self.params['dreena']['TIMESTEP']:.6f}\n")
 			f.write(f"TCRIT = {self.params['dreena']['TCRIT']:.6f}\n")
-		with open(path.join(srcdir, "dsssffs.conf"), 'w') as f:
-			f.write(f"sNN = {self.params['trento']['ecm']:d}GeV\n")
-		with open(path.join(srcdir, "vn.conf"), 'w') as f:
-			f.write(f"sNN = {self.params['trento']['ecm']:d}GeV\n")
-			f.write(f"eventN = {self.params['trento']['mb_event_n']:d}\n")
+		if path.exists(path.abspath("models/DSSFFs")):
+			with open(path.join(srcdir, "dsssffs.conf"), 'w') as f:
+				f.write(f"modelDir = {path.abspath('models/DSSFFs')}\n")
+				f.write(f"sNN = {self.params['trento']['ecm']:d}GeV\n")
+		if path.exists(path.abspath("models/ebeVn")):
+			with open(path.join(srcdir, "vn.conf"), 'w') as f:
+				f.write(f"modelDir = {path.abspath('models/ebeVn')}\n")
+				f.write(f"sNN = {self.params['trento']['ecm']:d}GeV\n")
+				f.write(f"eventN = {self.params['trento']['mb_event_n']:d}\n")
 
 	def __gen_eloss_job_script(self, srcdir):
-		dreenadir = path.abspath("models/dreena")
+		dreenadir = path.abspath("models/ebetvuddreena")
 		workdir   = path.abspath("work")
 		dreenaTiming = int(200/self.params['dreena']['THREAD_NUM']*self.params['trento']['mb_event_n']/1000)
 		with open(path.join(srcdir, "jobscript.slurm"), 'w') as f:
@@ -300,8 +305,17 @@ class generateJobs():
 		if not path.exists(res_dir): mkdir(res_dir)
 
 		copy(path.abspath("utils/run_eloss.py"), job_dir)
+		copy(path.abspath("models/ebetvuddreena/ebeDREENA"), job_dir)
+		if path.exists(path.abspath("models/DSSFFs")):
+			copy(path.abspath("models/DSSFFs/DSSFFs"), job_dir)
+		if path.exists(path.abspath("models/ebeVn")):
+			copy(path.abspath("models/ebeVn/ebeVn"), job_dir)
 
-		self.__gen_temp_grids(path.join(work_dir, "Temp_evo"))
+		rename(path.join(work_dir, "Temp_evo"), path.join(job_dir, "Temp_evo"))
+		rename(path.join(work_dir, 		"bcp"), path.join(job_dir, 		"bcp"))
+		rename(path.join(work_dir, 		 "qn"), path.join(job_dir, 		 "qn"))
+
+		self.__gen_temp_grids(path.join(job_dir, "Temp_evo"))
 		self.__gen_bcpp(job_dir)
 		self.__gen_eloss_conf(job_dir)
 		self.__gen_eloss_job_script(job_dir)
