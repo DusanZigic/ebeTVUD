@@ -211,8 +211,8 @@ class prerequisites:
 			compile_file.close()
 			exit()
 
-		#c hecking for DREENAA executable:
-		src_dir = path.join(model_dir, "dreena")
+		# checking for ebeDREENA executable:
+		src_dir = path.join(model_dir, "ebetvuddreena")
 		dreenaFlag = False
 		for root, dirs, files in walk(src_dir):
 			if "ebeDREENA" in files: dreenaFlag = True
@@ -222,7 +222,7 @@ class prerequisites:
 			for root, dirs, files in walk(src_dir):
 				if "ebeDREENA" in files: dreenaFlag = True
 			if not dreenaFlag:
-				print("Error: could not ebeDREENA source code. Aborting...")
+				print("Error: could not compile ebeDREENA source code. Aborting...")
 				compile_file.close()
 				return False
 		
@@ -238,6 +238,6 @@ class prerequisites:
 				rmtree(path.join(models_dir, "osu-hydro", "build"))
 			if path.exists(path.join(models_dir, "urqmd-afterburner", "build")):
 				rmtree(path.join(models_dir, "urqmd-afterburner", "build"))
-			if path.exists(path.join(models_dir, "dreena", "ebeDREENA")):
-				remove(path.join(models_dir, "dreena", "ebeDREENA"))
+			if path.exists(path.join(models_dir, "ebetvuddreena", "ebeDREENA")):
+				remove(path.join(models_dir, "ebetvuddreena", "ebeDREENA"))
 			self.check_execs()
