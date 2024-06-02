@@ -200,17 +200,6 @@ class prerequisites:
 				compile_file.close()
 				exit()
 
-		# checking for analysis scripts:
-		src_dir = path.join(model_dir, "analysis")
-		analysisFlag = True
-		if not path.exists(src_dir): 								 analysisFlag = False
-		if not path.exists(path.join(src_dir, "analyse.py")): 		 analysisFlag = False
-		if not path.exists(path.join(src_dir, "reference_flow.py")): analysisFlag = False
-		if not analysisFlag:
-			print("Error: could not find analysis scripts. Aborting...")
-			compile_file.close()
-			exit()
-
 		# checking for ebeDREENA executable:
 		src_dir = path.join(model_dir, "ebetvuddreena")
 		dreenaFlag = False
