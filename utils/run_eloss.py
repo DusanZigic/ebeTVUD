@@ -62,6 +62,7 @@ if __name__ == "__main__":
 			commandString = f"export OMP_NUM_THREADS={params['dreena']['THREAD_NUM']:d}; "
 			for mtd in methods:
 				commandString += f"./VnEbE --workdir={workdir} --c=vn.conf --pName={pName} --eventIDs={evid_low:d}-{evid_high:d} --centrality={centrality} --method={mtd[0]} --filter={mtd[1]}; "
+			call(commandString, shell=True, cwd=vndir, stdout=runrecord, stderr=errorrecord)
 
 	runrecord.close()
 	errorrecord.close()
