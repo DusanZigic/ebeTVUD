@@ -117,11 +117,11 @@ class collectData:
 		sleep(2)
 		
 		if "dists" in self.params['dreena']['save_files']:
-			res_dir  = path.join(job_dir, "results")
-			eid_list = [int(findall(r"\d+", f)[0]) for f in listdir(res_dir)]
-			eid_list = sorted(list(set(eid_list)))
-			# for pcode in ["b", "c", "d", "db", "g", "s", "u", "ub", "ch"]:
-			for pcode in ["b", "c", "d", "db", "g", "s", "u", "ub"]:
+			res_dir   = path.join(job_dir, "results")
+			eid_list  = [int(findall(r"\d+", f)[0]) for f in listdir(res_dir)]
+			eid_list  = sorted(list(set(eid_list)))
+			pCodeList = list(set(["".join(c for c in f.split('.')[0] if c.isalpha()) for f in listdir(res_dir)]))
+			for pcode in pCodeList:
 				dist_bin_file = open(path.join(job_dir, "highpt", f"{pcode:s}.dat"), 'wb')
 				dist     = np.loadtxt(path.join(res_dir, f"{pcode:s}{eid_list[0]:d}.dat"))
 				pTGrid   = np.unique(np.sort(dist[:, 0]))
@@ -151,11 +151,17 @@ class collectData:
 		rmtree(job_dir)
 
 		if "bcp.dat" not in self.params['trento']['save_files']:
-			rmtree(path.join(work_dir, "bcp"))
+			rmtree(path.join(job_dir, "bcp"))
+		else:
+			rename(path.join(job_dir, "bcp"), path.join(work_dir, "bcp"))
 		if "Temp_evo.dat" not in self.params['hydro']['save_files']:
-			rmtree(path.join(work_dir, "Temp_evo"))
+			rmtree(path.join(job_dir, "Temp_evo"))
+		else:
+			rename(path.join(job_dir, "Temp_evo"), path.join(work_dir, "Temp_evo"))
 		if "qn.dat" not in self.params['analysis']['save_files']:
-			rmtree(path.join(work_dir, "qn"))
+			rmtree(path.join(job_dir, "qn"))
+		else:
+			rename(path.join(job_dir, "qn"), path.join(work_dir, "qn"))
 
 	def collect_all(self):
 
