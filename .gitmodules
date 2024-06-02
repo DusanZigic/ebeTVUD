@@ -13,3 +13,6 @@
 [submodule "models/urqmd-afterburner"]
 	path = models/urqmd-afterburner
 	url = https://github.com/DusanZigic/urqmd-afterburner.git
+[submodule "models/ebetvuddreena"]
+	path = models/ebetvuddreena
+	url = https://github.com/DusanZigic/ebetvuddreena.git
