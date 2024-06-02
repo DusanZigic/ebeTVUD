@@ -242,6 +242,23 @@ class prerequisites:
 					compile_file.close()
 					exit()
 		
+		# checking for ebeVn executable:
+		src_dir = path.join(model_dir, "ebeVn")
+		if path.exists(src_dir):
+			ebevnFlag = False
+			for root, dirs, files in walk(src_dir):
+				if "ebeVn" in files: ebevnFlag = True
+			if not ebevnFlag:
+				call("g++ source/*.cpp -fopenmp -O3 -o ebeVn", shell=True, cwd=src_dir, stdout=compile_file, stderr=compile_file)
+				ebevnFlag = False
+				for root, dirs, files in walk(src_dir):
+					if "ebeVn" in files: ebevnFlag = True
+				if not ebevnFlag:
+					print("Error: could not compile ebeVn source code. Aborting...")
+					compile_file.close()
+					exit()
+
+		
 		compile_file.close()
 		remove(path.join(model_dir, "compile.info"))
 	
@@ -258,4 +275,6 @@ class prerequisites:
 				remove(path.join(models_dir, "ebetvuddreena", "ebeDREENA"))
 			if path.exists(path.join(models_dir, "DSSFFs", "DSSFFs")):
 				remove(path.join(models_dir, "DSSFFs", "DSSFFs"))
+			if path.exists(path.join(models_dir, "ebeVn", "ebeVn")):
+				remove(path.join(models_dir, "ebeVn", "ebeVn"))
 			self.check_execs()
