@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 from sys import version_info, exit
-from os import path, walk, mkdir, remove
+from os import path, walk, mkdir, remove, listdir
 from shutil import rmtree
 from subprocess import call
 
@@ -246,6 +246,22 @@ class prerequisites:
 					print("Error: could not compile ebeVn source code. Aborting...")
 					compile_file.close()
 					exit()
+		
+		# checking for initial pT distributions:
+		src_dir = path.join(model_dir, "ebetvuddreena", "ptDists", f"ptDist{self.params['trento']['ecm']:d}GeV")
+		if "ch" in self.params['dreena']['particles']:
+			for pName in ["Down", "DownBar", "Gluon", "Strange", "Up", "UpBar"]:
+				if not f"ptDist_{self.params['trento']['ecm']:d}GeV_{pName}.dat" in listdir(src_dir):
+					print(f"Error: unable to find initial pT distribution for {pName.lower().replace('bar', '-bar')} quark. Aborting...")
+					exit()
+		if "d" in self.params['dreena']['particles']:
+			if not f"ptDist_{self.params['trento']['ecm']:d}GeV_Charm.dat" in listdir(src_dir):
+				print(f"Error: unable to find initial pT distribution for charm quark. Aborting...")
+				exit()
+		if "b" in self.params['dreena']['particles']:
+			if not f"ptDist_{self.params['trento']['ecm']:d}GeV_Bottom.dat" in listdir(src_dir):
+				print(f"Error: unable to find initial pT distribution for bottom quark. Aborting...")
+				exit()
 
 		
 		compile_file.close()
