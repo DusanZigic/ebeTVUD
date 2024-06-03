@@ -77,7 +77,7 @@ class progressReport:
 		print(f"{'total':>6s}: {total_events_done:3d}/{total_events:3d}")
 
 	def __progress_eloss(self):
-		total_events = len(listdir(path.join(self.work_dir, "bcp")))
+		total_events = len(listdir(path.join(self.work_dir, "elossjob", "bcp")))
 		res_dir = path.join(self.work_dir, "elossjob", "results")
 		for p in [["bottom", "b"], ["charm", "c"], ["lquarks", "db"], ["gluon", "g"], ["ch", "ch"]]:
 			events_done = len(glob(path.join(res_dir, f"{p[1]:s}*.dat")))
