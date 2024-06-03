@@ -58,7 +58,7 @@ if __name__ == "__main__":
 				evid_high = int(params['trento']['mb_event_n']*int(centrality.replace('%', '').split('-')[1])/100.0)
 				commandString = f"export OMP_NUM_THREADS={params['dreena']['THREAD_NUM']:d}; "
 				for mtd in methods:
-					commandString += f"./VnEbE --config=vn.conf --pName={pName} --eventIDs={evid_low:d}-{evid_high:d} --centrality={centrality} --method={mtd[0]} --filter={mtd[1]}; "
+					commandString += f"./ebeVn --config=vn.conf --pName={pName} --eventIDs={evid_low:d}-{evid_high:d} --centrality={centrality} --method={mtd[0]} --filter={mtd[1]}; "
 				call(commandString, shell=True, cwd=scriptDir, stdout=runrecord, stderr=errorrecord)
 
 	runrecord.close()
