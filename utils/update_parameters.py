@@ -1,6 +1,8 @@
 #!/usr/bin/env python3
 
 import argparse
+from os import path
+from sys import exit
 from params import params
 
 ###################################################################################################################################
@@ -8,6 +10,10 @@ from params import params
 def update_params():
 
 	parser = argparse.ArgumentParser()
+
+	#############################################################################################################
+	# progress report
+	parser.add_argument('--progress', action='store_true', default=False)
 
 	#############################################################################################################
 	# simulation parameters:
@@ -100,6 +106,14 @@ def update_params():
 
 	#############################################################################################################
 	args = parser.parse_args()
+
+	#############################################################################################################
+	# progress report:
+	if args.progress:
+		from utils.progress_report import progressReport
+		pg = progressReport(path.abspath("work"))
+		pg.progress_report()
+		exit()
 
 	#############################################################################################################
 	# main parameters:
