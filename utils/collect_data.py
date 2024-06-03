@@ -147,8 +147,8 @@ class collectData:
 		src_dir  = path.join(job_dir, "highpt")
 		dest_dir = path.join(work_dir, "highpt")
 		if not path.exists(dest_dir): mkdir(dest_dir)
-		for aFile in listdir(src_dir): rename(path.join(src_dir, aFile), path.join(dest_dir, aFile))
-		rmtree(job_dir)
+		for aFile in listdir(src_dir):
+			rename(path.join(src_dir, aFile), path.join(dest_dir, aFile))
 
 		if "bcp.dat" not in self.params['trento']['save_files']:
 			rmtree(path.join(job_dir, "bcp"))
@@ -162,6 +162,8 @@ class collectData:
 			rmtree(path.join(job_dir, "qn"))
 		else:
 			rename(path.join(job_dir, "qn"), path.join(work_dir, "qn"))
+
+		rmtree(job_dir)
 
 	def collect_all(self):
 
