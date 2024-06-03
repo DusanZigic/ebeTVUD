@@ -62,7 +62,7 @@ class generateJobs():
 		with open(path.join(src_dir, "jobscript.slurm"), 'w') as f:
 			f.write("#!/bin/bash\n")
 			f.write("#\n")
-			f.write(f"#SBATCH --job-name=trento{0:d}\n".format(jobid))
+			f.write(f"#SBATCH --job-name=trento{jobid:d}\n")
 			f.write("#SBATCH --output=outputfile.txt\n")
 			f.write("#\n")
 			f.write("#SBATCH --ntasks=1\n")
