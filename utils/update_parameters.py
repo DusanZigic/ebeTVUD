@@ -209,7 +209,7 @@ def update_params():
 	# checking batch system:
 	if params['main']['batch_system'] not in ['slurm', 'local']:
 		print("Error: batch_system parameter must be one of: local, slurm. Aborting...")
-		return False
+		exit()
 
 	#############################################################################################################
 	#setting parameters that depend on other dictionary values:
@@ -253,51 +253,46 @@ def update_params():
 	for fs in params['trento']['save_files']:
 		if fs not in trento_save_files:
 			print(f"Error: provided trento file to save, {fs}, not valid. Aborting...")
-			return False
+			exit()
 
 	# freestream files:
 	freestream_save_files = ['ed.dat', 'u1.dat', 'u2.dat', 'pi11.dat', 'pi12.dat', 'pi22.dat']
 	for fs in params['freestream']['save_files']:
 		if fs not in freestream_save_files:
 			print(f"Error: provided freestream file to save, {fs}, not valid. Aborting...")
-			return False
+			exit()
 
 	# osu-hydro files:
 	osuhydro_save_files = ['Temp_evo.dat', 'surface.dat']
 	for fs in params['hydro']['save_files']:
 		if fs not in osuhydro_save_files:
 			print(f"Error: provided hydro file to save, {fs}, not valid. Aborting...")
-			return False
+			exit()
 
 	# frzout files:
 	frzout_save_files = ['particles_in.dat']
 	for fs in params['frzout']['save_files']:
 		if fs not in frzout_save_files:
 			print(f"Error: provided freezout file to save, {fs}, not valid. Aborting...")
-			return False
+			exit()
 
 	# urqmd files:
 	urqmd_save_files = ['particles_out.dat']
 	for fs in params['urqmd']['save_files']:
 		if fs not in urqmd_save_files:
 			print(f"Error: provided urqmd file to save, {fs}, not valid. Aborting...")
-			return False
+			exit()
 
 	# analysis files:
 	analysis_save_files = ['dndpt.dat', 'identified.dat', 'qn.dat', 'intflows.dat', 'Qn.dat']
 	for fs in params['analysis']['save_files']:
 		if fs not in analysis_save_files:
 			print(f"Error: provided analysis file to save, {fs}, not valid. Aborting...")
-			return False
+			exit()
 
 	# eloss files:
 	eloss_save_files = ['avg', 'dists']
 	for fs in params['dreena']['save_files']:
 		if fs not in eloss_save_files:
 			print(f"Error: provided dreena file to save, {fs}, not valid. Aborting...")
-			return False	
-
-	##########################################################################################################
-
-	return True
-###################################################################################################################################
+			exit()
