@@ -133,6 +133,8 @@ params = {
 	#############################################################################################################
 	#dreena parameters:
 	'dreena': {
+			'particles':					  '', # chose which particles to calculate;
+							      				  # options: ch (charged hadrons), d (d meson), b (b meson); if left empty, all particles will be calculated
 			'xB':		      				 0.6, # chromo-magnetic to chromo-electric mass ratio
 			
 			'BCPP':	       				  'auto', # percentage of binary collisions to be used as jet's initial positions (to be continued...)

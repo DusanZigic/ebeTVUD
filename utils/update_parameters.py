@@ -91,6 +91,7 @@ def update_params():
 
 	#############################################################################################################
 	# ebeDREENA parameters:
+	parser.add_argument('--particles',  type=str)
 	parser.add_argument('--xB', 	    type=float)
 	
 	parser.add_argument('--BCPP',       type=str)
@@ -191,12 +192,13 @@ def update_params():
 
 	#############################################################################################################
 	# dreena parameters:
+	if args.particles  is not None: params['dreena']['particles']  = args.particles.split(',')
 	if args.xB 		   is not None: params['dreena']['xB'] 		   = args.xB
 	if args.BCPP       is not None: params['dreena']['BCPP']       = args.BCPP
 	if args.BCPSEED    is not None: params['dreena']['BCPSEED']    = args.BCPSEED
 	if args.phiGridN   is not None: params['dreena']['phiGridN']   = args.phiGridN
 
-	if args.methods    is not None: params['dreena']['methods']    = args.methods.split('')
+	if args.methods    is not None: params['dreena']['methods']    = args.methods.split(',')
 
 	if args.THREAD_NUM is not None: params['dreena']['THREAD_NUM'] = args.THREAD_NUM
 
@@ -235,7 +237,12 @@ def update_params():
 
 	######################################################################################
 	#dreena
-	if params['dreena']['THREAD_NUM'] == 0:							    #setting eloss NUM_THREADS to num_of_jobs if provided value is 0
+	if not params['dreena']['particles'] or len(params['dreena']['particles']) == 0: # setting dreena particles
+		params['dreena']['paericles'] = ['d', 'b', 'ch']
+	if not isinstance(params['dreena']['particles'], list):
+		params['dreena']['particles'] = [params['dreena']['particles']]
+	
+	if params['dreena']['THREAD_NUM'] == 0:											 # setting eloss NUM_THREADS to num_of_jobs if provided value is 0
 		params['dreena']['THREAD_NUM'] = params['main']['num_of_jobs']
 
 	##########################################################################################################

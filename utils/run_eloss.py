@@ -18,26 +18,29 @@ if __name__ == "__main__":
 	runrecord   = open(path.abspath("runrecord.log"), 'w')
 	errorrecord = open(path.abspath("errorrecord.log"), 'w')
 
-	commandString  = f"export OMP_NUM_THREADS={params['dreena']['THREAD_NUM']:d}; "
-	commandString += f"./ebeDREENA AverageEL --config=dreena.conf --eventIDs={evid_low:d}-{evid_high:d} --pName=Bottom;"
-	call(commandString, shell=True, cwd=scriptDir, stdout=runrecord, stderr=errorrecord)
-
-	commandString  = f"export OMP_NUM_THREADS={params['dreena']['THREAD_NUM']:d}; "
-	commandString += f"./ebeDREENA AverageEL --config=dreena.conf --eventIDs={evid_low:d}-{evid_high:d} --pName=Charm;"
-	call(commandString, shell=True, cwd=scriptDir, stdout=runrecord, stderr=errorrecord)
-
-	commandString  = f"export OMP_NUM_THREADS={params['dreena']['THREAD_NUM']:d}; "
-	commandString += f"./ebeDREENA AverageEL --config=dreena.conf --eventIDs={evid_low:d}-{evid_high:d} --pName=LQuarks;"
-	call(commandString, shell=True, cwd=scriptDir, stdout=runrecord, stderr=errorrecord)
-
-	commandString  = f"export OMP_NUM_THREADS={params['dreena']['THREAD_NUM']:d}; "
-	commandString += f"./ebeDREENA AverageEL --config=dreena.conf --eventIDs={evid_low:d}-{evid_high:d} --pName=Gluon;"
-	call(commandString, shell=True, cwd=scriptDir, stdout=runrecord, stderr=errorrecord)
-
-	if path.exists(path.abspath("dsssffs.conf")):
+	if "b" in params['dreena']['particles']:
 		commandString  = f"export OMP_NUM_THREADS={params['dreena']['THREAD_NUM']:d}; "
-		commandString += f"./DSSFFs --config=dsssffs.conf --eventIDs={evid_low:d}-{evid_high:d};"
+		commandString += f"./ebeDREENA AverageEL --config=dreena.conf --eventIDs={evid_low:d}-{evid_high:d} --pName=Bottom;"
 		call(commandString, shell=True, cwd=scriptDir, stdout=runrecord, stderr=errorrecord)
+	
+	if "d" in params['dreena']['particles']:
+		commandString  = f"export OMP_NUM_THREADS={params['dreena']['THREAD_NUM']:d}; "
+		commandString += f"./ebeDREENA AverageEL --config=dreena.conf --eventIDs={evid_low:d}-{evid_high:d} --pName=Charm;"
+		call(commandString, shell=True, cwd=scriptDir, stdout=runrecord, stderr=errorrecord)
+
+	if "ch" in params['dreena']['particles']:
+		commandString  = f"export OMP_NUM_THREADS={params['dreena']['THREAD_NUM']:d}; "
+		commandString += f"./ebeDREENA AverageEL --config=dreena.conf --eventIDs={evid_low:d}-{evid_high:d} --pName=LQuarks;"
+		call(commandString, shell=True, cwd=scriptDir, stdout=runrecord, stderr=errorrecord)
+
+		commandString  = f"export OMP_NUM_THREADS={params['dreena']['THREAD_NUM']:d}; "
+		commandString += f"./ebeDREENA AverageEL --config=dreena.conf --eventIDs={evid_low:d}-{evid_high:d} --pName=Gluon;"
+		call(commandString, shell=True, cwd=scriptDir, stdout=runrecord, stderr=errorrecord)
+
+		if path.exists(path.abspath("dsssffs.conf")):
+			commandString  = f"export OMP_NUM_THREADS={params['dreena']['THREAD_NUM']:d}; "
+			commandString += f"./DSSFFs --config=dsssffs.conf --eventIDs={evid_low:d}-{evid_high:d};"
+			call(commandString, shell=True, cwd=scriptDir, stdout=runrecord, stderr=errorrecord)
 
 	if not path.exists(path.abspath("highpt")):
 		mkdir(path.abspath("highpt"))
