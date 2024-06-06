@@ -238,7 +238,7 @@ def update_params():
 	######################################################################################
 	#dreena
 	if not params['dreena']['particles'] or len(params['dreena']['particles']) == 0: # setting dreena particles
-		params['dreena']['paericles'] = ['d', 'b', 'ch']
+		params['dreena']['particles'] = ['d', 'b', 'ch']
 	if not isinstance(params['dreena']['particles'], list):
 		params['dreena']['particles'] = [params['dreena']['particles']]
 	
