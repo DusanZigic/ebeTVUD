@@ -63,6 +63,9 @@ When parameter values are overwritten, dictionary values are updated, and this u
 
 Certain parameter values depend on other parameter values and if one is changed other one is automatically changed. For example, if freestreaming is turned on, hydro parameters that determine whether to read initial condition as energy or entropy density and wheter or not to read initial flow and viscous terms will be changed. Also, hydro's initial time, ```T0```, will be changed to the value of freestreaming time.
 
+> [!NOTE]
+> High-pT energy loss can be turned off by setting ```simulation``` parameter to hydro. In this scenaraio, only TRENTO, hydro, freezout and UrQMD, and freestream if it's turned on, parts of the simulation will be executed.
+
 In [script used to freestream](https://github.com/DusanZigic/freestream/blob/34633c2795a2ce3548dda89730da2950b7e2e0d4/streamIC.py) intial conditions, TRENTO's grid parameters and freestreaming time are set to parameter dictionary value.  
 In [script used for freezout](https://github.com/DusanZigic/frzout/blob/0c6d0fa0102714a606aea2b40ba764eacb69db9a/sampleSurface.py), ```Tswitch``` parameter is determined by hydro's decoupling energy parameter, ```Edec``` and equation of state (decoupling energy and/or equation of state can be changed and code would stil be consistent).  
 Number of oversamples in [freezout](https://github.com/DusanZigic/frzout/blob/0c6d0fa0102714a606aea2b40ba764eacb69db9a/sampleSurface.py) and [analysys](https://github.com/DusanZigic/ebeTVUD/blob/main/utils/analyse.py) scripts is set to parameter dictionary value.
