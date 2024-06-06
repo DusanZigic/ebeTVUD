@@ -200,6 +200,12 @@ class prerequisites:
 				compile_file.close()
 				exit()
 
+		# checking for eloss  and execs only if simulation is set to 'hybrid':
+		if self.params['main']['simulation'] != 'hybrid':
+			compile_file.close()
+			remove(path.join(model_dir, "compile.info"))
+			return
+		
 		# checking for ebeDREENA executable:
 		src_dir = path.join(model_dir, "ebetvuddreena")
 		dreenaFlag = False
@@ -276,10 +282,14 @@ class prerequisites:
 				rmtree(path.join(models_dir, "osu-hydro", "build"))
 			if path.exists(path.join(models_dir, "urqmd-afterburner", "build")):
 				rmtree(path.join(models_dir, "urqmd-afterburner", "build"))
-			if path.exists(path.join(models_dir, "ebetvuddreena", "ebeDREENA")):
-				remove(path.join(models_dir, "ebetvuddreena", "ebeDREENA"))
-			if path.exists(path.join(models_dir, "DSSFFs", "DSSFFs")):
-				remove(path.join(models_dir, "DSSFFs", "DSSFFs"))
-			if path.exists(path.join(models_dir, "ebeVn", "ebeVn")):
-				remove(path.join(models_dir, "ebeVn", "ebeVn"))
+			
+			# removing eloss execs only if simulation is set to 'hybrid':
+			if self.params['main']['simulation'] == 'hybrid':
+				if path.exists(path.join(models_dir, "ebetvuddreena", "ebeDREENA")):
+					remove(path.join(models_dir, "ebetvuddreena", "ebeDREENA"))
+				if path.exists(path.join(models_dir, "DSSFFs", "DSSFFs")):
+					remove(path.join(models_dir, "DSSFFs", "DSSFFs"))
+				if path.exists(path.join(models_dir, "ebeVn", "ebeVn")):
+					remove(path.join(models_dir, "ebeVn", "ebeVn"))
+			
 			self.check_execs()
