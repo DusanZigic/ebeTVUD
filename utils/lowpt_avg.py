@@ -17,18 +17,20 @@ class lowpTAvg:
                 line = f.readline().rstrip()
                 if not line: break
                 particles.append(line.split()[0])
-        mults = [0.0]*len(particles)
+        mults  = [0.0]*len(particles)
+        meanpT = [0.0]*len(particles)
         for aFile in self.multiplicityFiles:
             with open(aFile, 'r') as f:
                 lines = f.readlines()
-            lines = [float(l.rstrip().split()[1]) for l in lines]
+            lines = [[float(l.rstrip().split()[1]), float(l.rstrip().split()[2])] for l in lines]
             for p, l in enumerate(lines):
-                mults[p] += l
-        mults = [m/len(self.multiplicityFiles) for m in mults]
-        mults = [[particles[p], m] for p,m in enumerate(mults)]
+                mults[p]  += l[0]
+                meanpT[p] += l[1]
+        mults  = [m/len(self.multiplicityFiles) for m in mults]
+        meanpT = [m/len(self.multiplicityFiles) for m in meanpT]
         
-        for m in mults:
-            print(f"{m[0]:>6s} {m[1]:10.5f}", file=export_file)
+        for particle, mult, mpT in zip(particles, mults, meanpT):
+            print(f"{particle:>6} {mult:11.6f} {mpT:12.10f}", file=export_file)
 
         export_file.close()
 
