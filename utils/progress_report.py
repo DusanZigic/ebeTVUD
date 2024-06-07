@@ -63,16 +63,32 @@ class progressReport:
 		jobN     = len([path.join(self.work_dir, f) for f in listdir(self.work_dir) if path.isdir(path.join(self.work_dir, f))])
 		total_events = 0
 		total_events_done = 0
+		jobs_progress = []
 		for jobID in range(jobN):
 			job_dir = path.join(self.work_dir, f"job{jobID:d}")
-			total_events_job = len([f for f in listdir(job_dir) if "event" in f])
-			total_events += total_events_job
+			events_per_job = len([f for f in listdir(job_dir) if "event" in f])
+			total_events += events_per_job
 			events_done  = 0
 			for root, dirs, files in pwalk(job_dir):
 				if "eventdone.info" in files: events_done += 1
 			total_events_done += events_done
-			if events_done < total_events_job:
-				print(f"{path.split(job_dir)[1]:>6s}: {events_done:3d}/{total_events_job:3d}")
+			if events_done < events_per_job:
+				jobs_progress.append([jobID, events_per_job, events_done])
+		if jobN <= 10:
+			for job in jobs_progress:
+				job_id = f"job{job[0]:d}"
+				print(f"{job_id:>6s}: {job[2]:3d}/{job[1]:3d}")
+		else:
+			jobs_progress.sort(key=lambda x: (x[2], x[1]), reverse=True)
+			for job in jobs_progress[:5]:
+				job_id = f"job{job[0]:d}"
+				print(f"{job_id:>6s}: {job[2]:3d}/{job[1]:3d}")
+			print("    .")
+			print("    .")
+			print("    .")
+			for job in jobs_progress[-5:]:
+				job_id = f"job{job[0]:d}"
+				print(f"{job_id:>6s}: {job[2]:3d}/{job[1]:3d}")
 		print('-'*18)
 		print(f"{'total':>6s}: {total_events_done:3d}/{total_events:3d}")
 
