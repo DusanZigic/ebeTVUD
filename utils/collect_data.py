@@ -8,6 +8,8 @@ from time import sleep
 from shutil import rmtree
 import numpy as np
 from struct import pack as spack
+import time
+import json
 
 class collectData:
 	def __init__(self, params):
@@ -166,6 +168,12 @@ class collectData:
 		rmtree(job_dir)
 
 	def collect_all(self):
+
+		timing = round(time.time() - self.params['main']['timing'])
+		self.params['main']['timing'] = f"{timing//3600:02}:{timing%3600//60:02}:{timing%60:02}"
+
+		json_params = json.dumps(self.params, indent=4)
+		with open(path.abspath("work/params.json"), 'w') as f: f.write(json_params)
 
 		run_id = len([f for f in listdir(path.abspath("")) if "analysis" in f])
 		rename(path.abspath("work"), path.abspath(f"analysis{run_id:d}"))

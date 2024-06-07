@@ -3,6 +3,7 @@
 import argparse
 from os import path
 from sys import exit
+import time
 from params import params
 
 ###################################################################################################################################
@@ -210,6 +211,10 @@ def update_params():
 	if params['main']['batch_system'] not in ['slurm', 'local']:
 		print("Error: batch_system parameter must be one of: local, slurm. Aborting...")
 		exit()
+
+	#############################################################################################################
+	# adding timing to parameters:
+	params['main']['timing'] = time.time()
 
 	#############################################################################################################
 	#setting parameters that depend on other dictionary values:
