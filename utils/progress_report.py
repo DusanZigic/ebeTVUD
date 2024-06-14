@@ -74,7 +74,7 @@ class progressReport:
 			total_events_done += events_done
 			if events_done < events_per_job:
 				jobs_progress.append([jobID, events_per_job, events_done])
-		if jobN <= 10:
+		if len(jobs_progress) <= 10:
 			for job in jobs_progress:
 				job_id = f"job{job[0]:d}"
 				print(f"{job_id:>6s}: {job[2]:3d}/{job[1]:3d}")
