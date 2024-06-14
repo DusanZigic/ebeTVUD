@@ -256,7 +256,7 @@ class generateJobs():
 			f.write(f"TIMESTEP = {self.params['dreena']['TIMESTEP']:.6f}\n")
 			f.write(f"TCRIT = {self.params['dreena']['TCRIT']:.6f}\n")
 		if path.exists(path.abspath("models/DSSFFs")):
-			with open(path.join(srcdir, "dsssffs.conf"), 'w') as f:
+			with open(path.join(srcdir, "dssffs.conf"), 'w') as f:
 				f.write(f"modelDir = {path.abspath('models/DSSFFs')}\n")
 				f.write(f"sNN = {self.params['trento']['ecm']:d}GeV\n")
 		if path.exists(path.abspath("models/ebeVn")):

@@ -37,9 +37,9 @@ if __name__ == "__main__":
 		commandString += f"./ebeDREENA AverageEL --config=dreena.conf --eventIDs={evid_low:d}-{evid_high:d} --pName=Gluon;"
 		call(commandString, shell=True, cwd=scriptDir, stdout=runrecord, stderr=errorrecord)
 
-		if path.exists(path.abspath("dsssffs.conf")):
+		if path.exists(path.abspath("dssffs.conf")):
 			commandString  = f"export OMP_NUM_THREADS={params['dreena']['THREAD_NUM']:d}; "
-			commandString += f"./DSSFFs --config=dsssffs.conf --eventIDs={evid_low:d}-{evid_high:d};"
+			commandString += f"./DSSFFs --config=dssffs.conf --eventIDs={evid_low:d}-{evid_high:d};"
 			call(commandString, shell=True, cwd=scriptDir, stdout=runrecord, stderr=errorrecord)
 
 	if not path.exists(path.abspath("highpt")):
