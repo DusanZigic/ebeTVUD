@@ -2,7 +2,7 @@
 
 ### Trento + Vishnu + Urqmd + Dreena  -  event-by-event
 
-This is a package for full heavy-ion collision simulation performed on averaged initial conditions. It contains [TRENTO](https://github.com/Duke-QCD/trento) initial conditions, [viscous hydrodynamics](https://github.com/jbernhard/osu-hydro) code, [UrQMD](https://github.com/jbernhard/urqmd-afterburner) afterburner and [ebeDREENA](https://github.com/DusanZigic/ebeDREENA) model for high-pT energy loss calculations, as well as [freestream](https://github.com/Duke-QCD/freestream) and [freezout](https://github.com/Duke-QCD/frzout) modules.
+This is a package for full heavy-ion collision simulation performed on even-by-event fluctuating initial conditions. It contains [TRENTO](https://github.com/Duke-QCD/trento) initial conditions, [viscous hydrodynamics](https://github.com/jbernhard/osu-hydro) code, [UrQMD](https://github.com/jbernhard/urqmd-afterburner) afterburner and [ebeDREENA](https://github.com/DusanZigic/ebeDREENA) model for high-pT energy loss calculations, as well as [freestream](https://github.com/Duke-QCD/freestream) and [freezout](https://github.com/Duke-QCD/frzout) modules.
 
 ## <1> downloading, prerequisites and compilation
 
