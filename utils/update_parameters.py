@@ -83,6 +83,10 @@ def update_params():
 	parser.add_argument('--BulkTau',         type=float)
 
 	#############################################################################################################
+	# freezout parameters:
+	parser.add_argument('--maxsamples', type=int)
+
+	#############################################################################################################
 	# analysis parameters:
 	parser.add_argument('--id_pT_cuts',  type=str)
 	parser.add_argument('--id_y_cuts',   type=str)
@@ -182,6 +186,10 @@ def update_params():
 	if args.VisBulkWidth    is not None: params['hydro']['VisBulkWidth']    = args.VisBulkWidth
 	if args.IRelaxBulk      is not None: params['hydro']['IRelaxBulk']      = args.IRelaxBulk
 	if args.BulkTau         is not None: params['hydro']['BulkTau']         = args.BulkTau
+
+	#############################################################################################################
+	# freezout parameters:
+	if args.maxsamples is not None: params['frzout']['maxsamples'] = args.maxsamples
 
 	#############################################################################################################
 	# analysis parameters:
